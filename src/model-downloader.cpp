@@ -14,6 +14,7 @@
 #include <QNetworkRequest>
 #include <QProcess>
 #include <QProgressBar>
+#include <QPushButton>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
