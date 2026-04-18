@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.28...3.30)
 
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/common/bootstrap.cmake" NO_POLICY_SCOPE)
 
-project(${_name} VERSION ${_version} LANGUAGES CXX)
+project(${_name} VERSION ${_version} LANGUAGES C CXX)
 
 option(ENABLE_FRONTEND_API "Use obs-frontend-api for UI functionality" ON)
 option(ENABLE_QT "Use Qt functionality" ON)
@@ -22,17 +22,16 @@ set(_CORE_SOURCES
   src/subtitle-manager.cpp
 )
 
-# Plugin-only sources (require OBS + sherpa-onnx).
+# Plugin-only sources (require OBS + sherpa-onnx). Note: plugin-support.c is
+# generated automatically by obs-plugintemplate's helpers_common.cmake from
+# src/plugin-support.c.in and linked in as the `plugin-support` target. We
+# must not add it here.
 set(_PLUGIN_SOURCES
   src/asr-engine.cpp
   src/caption-filter.cpp
   src/model-downloader.cpp
   src/plugin-main.cpp
 )
-
-# Generated plugin-support for uniform obs_log() + PLUGIN_NAME / PLUGIN_VERSION.
-configure_file(src/plugin-support.c.in ${CMAKE_BINARY_DIR}/generated/plugin-support.c @ONLY)
-list(APPEND _PLUGIN_SOURCES ${CMAKE_BINARY_DIR}/generated/plugin-support.c)
 
 add_library(${CMAKE_PROJECT_NAME} MODULE)
 
