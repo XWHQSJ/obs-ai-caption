@@ -270,8 +270,9 @@ private:
 
 } /* namespace */
 
-bool show_model_download_dialog(QWidget *parent, std::string *out_model_dir)
+bool show_model_download_dialog(void *parent_widget, std::string *out_model_dir)
 {
+	auto *parent = static_cast<QWidget *>(parent_widget);
 	DownloadDialog dlg(parent, out_model_dir);
 	return dlg.exec() == QDialog::Accepted;
 }

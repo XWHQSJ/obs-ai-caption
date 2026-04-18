@@ -1,33 +1,20 @@
 #pragma once
 
-#include <QString>
-#include <QStringList>
-
-#include <functional>
+#include <cstddef>
 #include <string>
 
 /* Model presets and on-demand downloader.
  *
- * The plugin ships without any ASR model. On first use (or when the user clicks
- * "Download model" in the filter settings), the downloader fetches a selected
- * sherpa-onnx streaming Zipformer model into the OBS plugin-config directory
- * and extracts it so `find_model_files()` can discover it.
- *
- * Directory layout after a successful download:
- *   <OBS_CONFIG>/plugin_config/obs-ai-caption/models/
- *     <preset-id>/
- *       encoder-*.onnx
- *       decoder-*.onnx
- *       joiner-*.onnx
- *       tokens.txt
- *       ...
+ * Header is deliberately Qt-free so non-UI translation units
+ * (caption-filter.cpp, asr-engine.cpp) can include it without pulling Qt.
+ * The .cpp uses Qt for the actual dialog.
  */
 
 struct ModelPreset {
-	const char *id;          /* stable slug for the on-disk directory */
-	const char *display_name; /* human-readable menu label */
-	const char *description;  /* one-line help */
-	const char *archive_url;  /* tar.bz2 direct download */
+	const char *id;               /* stable slug for the on-disk directory */
+	const char *display_name;     /* human-readable menu label */
+	const char *description;      /* one-line help */
+	const char *archive_url;      /* tar.bz2 direct download */
 	const char *extracted_subdir; /* subdir inside archive (strip one level) */
 };
 
@@ -46,5 +33,6 @@ bool preset_is_installed(const ModelPreset &preset);
 
 /* Opens a Qt dialog that lets the user pick a model preset and downloads it
  * to `preset_install_dir`. Returns true and fills `out_model_dir` on success.
- * Must be called from the UI thread. */
-bool show_model_download_dialog(QWidget *parent, std::string *out_model_dir);
+ * Must be called from the UI thread. The `parent` argument is forwarded as a
+ * QWidget*; we take it as void* so including this header does not require Qt. */
+bool show_model_download_dialog(void *parent_widget, std::string *out_model_dir);
