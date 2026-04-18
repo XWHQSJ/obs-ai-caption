@@ -604,11 +604,10 @@ static obs_properties_t *caption_filter_properties(void *data)
 				return false;
 			auto *cf = static_cast<caption_filter_data *>(button_data);
 			if (cf && cf->context) {
-				OBSDataAutoRelease settings =
-					obs_source_get_settings(cf->context);
-				obs_data_set_string(settings, S_MODEL_DIR,
-						    new_dir.c_str());
+				obs_data_t *settings = obs_source_get_settings(cf->context);
+				obs_data_set_string(settings, S_MODEL_DIR, new_dir.c_str());
 				obs_source_update(cf->context, settings);
+				obs_data_release(settings);
 			}
 			return true;
 		},
