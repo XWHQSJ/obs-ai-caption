@@ -1,0 +1,36 @@
+# CMake build output
+build/
+build-*/
+out/
+cmake-build-*/
+
+# Dependency cache populated by buildspec.cmake
+.deps/
+
+# Development-local dependency dir (pre-buildspec layout)
+deps/
+!deps/.gitkeep
+
+# Downloaded ASR models (not for VCS)
+models/
+
+# Backup of pre-template layout
+.backup-pre-template/
+
+# IDE
+.vscode/
+.idea/
+*.vcxproj.user
+CMakeSettings.json
+
+# LSP / compile_commands
+compile_commands.json
+.cache/
+.clangd/
+
+# OS artefacts
+.DS_Store
+Thumbs.db
+
+# Editor-specific state
+.claude/
