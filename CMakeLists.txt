@@ -109,7 +109,15 @@ if(APPLE)
         "$<TARGET_BUNDLE_CONTENT_DIR:${CMAKE_PROJECT_NAME}>/Frameworks"
       COMMAND ${CMAKE_COMMAND} -E copy_if_different "${_dylib}"
         "$<TARGET_BUNDLE_CONTENT_DIR:${CMAKE_PROJECT_NAME}>/Frameworks/${_name_only}"
+      # Strip vendor signature before patching install name, then re-sign
+      # ad-hoc so the bundled dylib still loads under SIP.
+      COMMAND codesign --remove-signature
+        "$<TARGET_BUNDLE_CONTENT_DIR:${CMAKE_PROJECT_NAME}>/Frameworks/${_name_only}"
+        || true
       COMMAND install_name_tool -id "@rpath/${_name_only}"
+        "$<TARGET_BUNDLE_CONTENT_DIR:${CMAKE_PROJECT_NAME}>/Frameworks/${_name_only}"
+        || true
+      COMMAND codesign --force --sign -
         "$<TARGET_BUNDLE_CONTENT_DIR:${CMAKE_PROJECT_NAME}>/Frameworks/${_name_only}"
         || true
       VERBATIM
