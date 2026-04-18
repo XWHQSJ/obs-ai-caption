@@ -4,6 +4,10 @@ build-*/
 out/
 cmake-build-*/
 
+# ...but never exclude GitHub Actions composite actions.
+!.github/actions/build-*/
+!.github/actions/build-*/**
+
 # Dependency cache populated by buildspec.cmake
 .deps/
 
