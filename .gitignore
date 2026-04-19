@@ -38,3 +38,8 @@ Thumbs.db
 
 # Editor-specific state
 .claude/
+
+# Node ephemera from forum-submit helper
+node_modules/
+package-lock.json
+package.json
