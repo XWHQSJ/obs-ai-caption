@@ -1,109 +1,60 @@
 # Submission kits for AI Captions (obs-ai-caption)
 
-Drafts of everything you need to get the plugin listed on the OBS Studio
-resources forum and, later, the official Plugin Registry.
+Templates for each public distribution channel.
 
 ## 1. OBS Forum resource page
 
-When you create the resource at
-<https://obsproject.com/forum/resources/categories/obs-studio-plugins.6/>,
-paste the following as the long description. Fill in the angle-bracket
-placeholders before posting.
+Canonical location to publish the plugin once WizardCM (or another mod) grants
+your account resource-posting permission. The full, rendered description lives
+in [`docs/forum-description.md`](forum-description.md) and is pre-filled by
+`scripts/obs-forum-submit.mjs` (or the opencli flow) when you're ready.
 
-```
-# AI Captions for OBS
-
-On-device, real-time AI captions powered by sherpa-onnx streaming ASR.
-No cloud, no API keys. Includes a sensitive-word mute that replaces the
-offending audio with an adaptive beep.
-
-## Features
-
-- [x] Streaming transcription (CPU / CUDA / DirectML)
-- [x] English + Chinese/English bilingual models
-- [x] One-click model download from the filter properties panel
-- [x] Word-list mute with adaptive beep
-- [x] Caption file output you can feed to any Text source
-
-## Supported platforms
-
-- Windows 10 / 11 x64
-- macOS 11+ universal (Apple Silicon + Intel)
-
-## Installation
-
-Download the archive for your platform from the GitHub release and follow
-the instructions in the README. The plugin is not code-signed yet — Windows
-SmartScreen and macOS Gatekeeper will prompt on first launch; right-click
-open to bypass.
-
-## Links
-
-- GitHub: <https://github.com/XWHQSJ/obs-ai-caption>
-- Issues: <https://github.com/XWHQSJ/obs-ai-caption/issues>
-- License: MIT
-
-## Credits
-
-Built on top of:
-
-- [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) — Next-gen Kaldi team
-- [obs-plugintemplate](https://github.com/obsproject/obs-plugintemplate)
-```
-
-Attach, in order:
+Upload order recommended:
 
 1. Hero screenshot (filter properties panel with captions flowing)
-2. Demo GIF / MP4 (5-10 s of live captions on top of a scene)
+2. Demo GIF / MP4 — we already keep one at `docs/screenshots/hero.gif`
 3. Model-download dialog screenshot
 4. Sensitive-word mute demo (audio waveform before/after)
 
-## 2. OBS Plugin Registry (OBS 31+)
+Tags to set: `captions`, `transcription`, `accessibility`, `ai`, `sherpa-onnx`,
+`chinese`.
 
-The registry accepts a `plugin.yaml` manifest per release. Save the following
-at the repo root as `plugin.yaml` before submitting:
+## 2. OBS Discord #plugin-dev
 
-```yaml
-id: obs-ai-caption
-displayName: AI Captions
-authors:
-  - name: obs-ai-caption contributors
-    url: https://github.com/XWHQSJ
-license: MIT
-description: >
-  Real-time streaming ASR captions powered by sherpa-onnx, with on-device
-  inference and a built-in sensitive-word mute filter.
-website: https://github.com/XWHQSJ/obs-ai-caption
-issues: https://github.com/XWHQSJ/obs-ai-caption/issues
-sourceUrl: https://github.com/XWHQSJ/obs-ai-caption
-obsVersionRange:
-  min: "31.0.0"
-platforms:
-  - windows-x64
-  - macos-universal
+A short announcement in [Discord #plugin-dev](https://discord.gg/obsproject)
+reaches core maintainers directly and has **no account-age or 2FA
+restriction**. The announcement template we use:
+
+```
+Hey folks — just shipped **obs-ai-caption** v0.1.0, an MIT-licensed,
+on-device streaming ASR plugin for OBS Studio.
+
+• Windows x64 + macOS universal builds (Sigstore attested)
+• Bilingual 中文/English Zipformer from sherpa-onnx
+• Adaptive-beep sensitive-word mute filter
+• One-click model download from the filter properties
+
+https://github.com/XWHQSJ/obs-ai-caption
+https://github.com/XWHQSJ/obs-ai-caption/releases/tag/0.1.0
+
+Feedback and bug reports very welcome!
 ```
 
-Submission steps:
+## 3. OBS Plugin Manager (upstream not ready yet)
 
-1. Open a PR against
-   <https://github.com/obsproject/obs-plugin-registry> adding a directory
-   `plugins/obs-ai-caption/<version>/` with the `plugin.yaml` above and the
-   release artifacts you want the registry to distribute (or just
-   `downloadUrl`s if you host them yourself on GitHub Releases).
-2. A maintainer will review. Expect feedback on:
-   - Signed binaries (they will ask even though the registry accepts
-     unsigned plugins with warnings)
-   - License compatibility (MIT — compatible with OBS GPL; sherpa-onnx is Apache-2.0)
-   - Model download UX (we already show the source + progress bar)
-3. On merge your plugin becomes available in OBS **Plugin Manager** inside
-   OBS Studio 31+.
+OBS's official Plugin Manager is tracked in
+[obsproject/rfcs#4](https://github.com/obsproject/rfcs/pull/4); the registry
+repo does not exist as of 2026-04. **Do not try to submit there yet.** Revisit
+once the RFC merges and `obsproject/obs-plugin-registry` (or equivalent) is
+announced.
 
-## 3. Announcement channels
+## 4. Announcement channels post-launch
 
-After the forum + registry listings go live:
+After the Forum listing is live:
 
-- [ ] Post a release note on r/obs
-- [ ] Tweet / Mastodon with the hero screenshot
-- [ ] Open an issue in the sherpa-onnx repo under "made-with" asking to be
+- [ ] Post release notes on [r/obs](https://reddit.com/r/obs)
+- [ ] Tweet / Mastodon with the hero GIF
+- [ ] Open a "made with sherpa-onnx" issue in
+      [k2-fsa/sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) asking to be
       listed
-- [ ] Add to awesome-obs: <https://github.com/awesome-foss/awesome-obs>
+- [ ] Submit to [awesome-obs](https://github.com/awesome-foss/awesome-obs)

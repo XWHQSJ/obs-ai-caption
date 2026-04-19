@@ -119,10 +119,12 @@ production transcription.
 > so you can be sure the binary came out of this exact GitHub Actions run
 > even without a traditional code-signing certificate.
 
-### Option B — OBS Plugin Manager (coming soon)
+### Option B — OBS Plugin Manager (future)
 
-OBS Studio 31+ will list this plugin in **Tools → Plugin Manager → Browse**
-once our Plugin Registry submission is merged.
+OBS's official Plugin Manager is still an
+[open RFC (#4)](https://github.com/obsproject/rfcs/pull/4) upstream. Once
+it ships we'll submit for automatic install/update inside OBS Studio.
+Until then, GitHub Releases is the canonical distribution channel.
 
 ---
 
@@ -232,7 +234,7 @@ ctest --test-dir build-tests --output-on-failure
 - [x] macOS universal + Windows x64 CI builds
 - [x] On-demand model download UI
 - [ ] Code signing (Apple Developer ID + Windows Authenticode)
-- [ ] OBS Plugin Registry submission
+- [ ] Watch upstream [RFC #4](https://github.com/obsproject/rfcs/pull/4) for Plugin Manager, submit when ready
 - [ ] CoreML provider on macOS (faster on Apple Silicon)
 - [ ] More languages (ja, ko, es)
 - [ ] Whisper-based fallback for broadcast-grade accuracy

@@ -111,6 +111,29 @@ jobs:
             ${{ github.workspace }}/*.zip
             ${{ github.workspace }}/*.tar.xz
 
+      # --- SignPath Foundation — free OSS Windows signing ---------------
+      # Activates automatically once both the SIGNPATH_API_TOKEN secret and
+      # SIGNPATH_ORG_ID variable are set (see docs/signpath-setup.md).
+      # The step is a no-op for forks and for local-test runs without the
+      # credentials, so pushing to main without them stays green.
+      - name: Sign Windows artifacts (SignPath) 🔏
+        if: >-
+          fromJSON(steps.check.outputs.validTag) &&
+          vars.SIGNPATH_ORG_ID != '' &&
+          env.SIGNPATH_API_TOKEN != ''
+        env:
+          SIGNPATH_API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
+        uses: signpath/github-action-submit-signing-request@v1.2
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORG_ID }}
+          project-slug: obs-ai-caption
+          signing-policy-slug: release-signing
+          artifact-configuration-slug: windows-zip
+          github-artifact-id: ${{ github.workspace }}/obs-ai-caption-${{ needs.build-project.outputs.pluginName && steps.check.outputs.version }}-windows-x64.zip
+          wait-for-completion: true
+          output-artifact-directory: ${{ github.workspace }}/signed
+
       - name: Create Release 🛫
         if: fromJSON(steps.check.outputs.validTag)
         id: create_release
