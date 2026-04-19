@@ -97,8 +97,27 @@ production transcription.
    `~/Library/Application Support/obs-studio/plugins/`.
 4. Restart OBS.
 
-> **Note:** v0.1 releases are not yet code-signed. Windows SmartScreen →
-> *More info → Run anyway*. macOS → right-click the `.pkg → Open`.
+> ### 🛡️ About the unsigned release
+>
+> We don't yet hold Apple Developer ID or Windows Authenticode certificates
+> — both cost money that a free, MIT-licensed plugin shouldn't have to pay.
+> Until we qualify for [SignPath Foundation](https://signpath.org) (free
+> Windows OSS signing) or a community-sponsored macOS identity, install
+> requires a one-time bypass:
+>
+> - **macOS Gatekeeper** — right-click the `.pkg` → *Open* → *Open*, or
+>   run the unquarantine helper after install:
+>   ```bash
+>   curl -L https://github.com/XWHQSJ/obs-ai-caption/raw/main/scripts/unquarantine-macos.sh | bash
+>   ```
+> - **Windows SmartScreen** — *More info* → *Run anyway* on the first
+>   extraction.
+>
+> Every release also carries a verifiable **Sigstore build provenance
+> attestation** you can check with
+> [`gh attestation verify`](https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations),
+> so you can be sure the binary came out of this exact GitHub Actions run
+> even without a traditional code-signing certificate.
 
 ### Option B — OBS Plugin Manager (coming soon)
 

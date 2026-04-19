@@ -10,6 +10,8 @@ on:
       - '*'
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 jobs:
   check-format:
     name: Check Formatting 🔍
@@ -99,6 +101,15 @@ jobs:
           for file in ${{ github.workspace }}/@(*.exe|*.deb|*.ddeb|*.pkg|*.tar.xz|*.zip); do
             echo "    ${file##*/}: $(sha256sum "${file}" | cut -d " " -f 1)" >> ${{ github.workspace }}/CHECKSUMS.txt
           done
+
+      - name: Attest build provenance 🔐
+        if: fromJSON(steps.check.outputs.validTag)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            ${{ github.workspace }}/*.pkg
+            ${{ github.workspace }}/*.zip
+            ${{ github.workspace }}/*.tar.xz
 
       - name: Create Release 🛫
         if: fromJSON(steps.check.outputs.validTag)
